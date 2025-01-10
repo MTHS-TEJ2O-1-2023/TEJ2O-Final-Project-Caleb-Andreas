@@ -31,7 +31,7 @@ input.onButtonPressed(Button.A, function() {
     }
 })
 
-// rightTrack on/off on a button press.
+// rightTrack on/off on B button press.
 input.onButtonPressed(Button.B, function () {
     if (rightTrack == 0) {
         rightTrack = 1
@@ -48,23 +48,29 @@ input.onButtonPressed(Button.B, function () {
     }
 })
 
-// Left motor loop.
+// Left motor receive.
 radio.onReceivedNumber(function(leftTrack: number) {
+    robotbit.MotorStop(robotbit.Motors.M2A)
+
+    // Left motor loop.
     while (true) {
-        robotbit.StepperDegree(robotbit.Steppers.M1, 10)
-        if (input.buttonIsPressed(Button.A) == true || leftTrack == 0) {
-            robotbit.MotorStop(robotbit.Motors.M1A)
+        robotbit.StepperDegree(robotbit.Steppers.M2, 10)
+        if (leftTrack == 0) {
+            robotbit.MotorStop(robotbit.Motors.M2A)
             break
         }
     }
 })
 
-// Right motor loop.
+// Right motor receive.
 radio.onReceivedNumber(function (rightTrack: number) {
+    robotbit.MotorStop(robotbit.Motors.M1A)
+
+    // Right motor loop.
     while (true) {
-        robotbit.StepperDegree(robotbit.Steppers.M2, 10)
-        if (input.buttonIsPressed(Button.A) == true || rightTrack == 0) {
-            robotbit.MotorStop(robotbit.Motors.M2A)
+        robotbit.StepperDegree(robotbit.Steppers.M1, 10)
+        if (leftTrack == 0) {
+            robotbit.MotorStop(robotbit.Motors.M1A)
             break
         }
     }
