@@ -41,7 +41,7 @@ input.onButtonPressed(Button.B, function () {
 input.onGesture(Gesture.Shake, function() {
     basic.clearScreen()
     radio.sendNumber(4)
-    basic.showArrow(ArrowNames.East)
+    basic.showArrow(ArrowNames.South)
     basic.pause(75)
     basic.showIcon(IconNames.Happy)
 })
