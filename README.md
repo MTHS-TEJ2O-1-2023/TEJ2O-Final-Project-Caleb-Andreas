@@ -1,4 +1,4 @@
-# TEJ2O ⇢ Unit #X-YY
+# TEJ2O ⇢ Final Project Step #3
 
 [![Mr Coxall's Super Linter](https://github.com/MTHS-TEJ2O-1-2024/<REPOSITORY>/workflows/Mr%20Coxall's%20Super%20Linter/badge.svg)](https://github.com/MTHS-TEJ2O-1-2024/<REPOSITORY>/actions)
 

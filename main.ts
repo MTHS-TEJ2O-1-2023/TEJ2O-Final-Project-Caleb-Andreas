@@ -2,76 +2,69 @@
  *
  * Created by: Caleb Andreas
  * Created on: Jan 2025
- * This program rotates a specific stepper motor depending on the signal it receives.
+ * This program rotates stepper motors to do different tasks.
 */
 
-// Variables.
-let leftTrack = 0
-let rightTrack = 0
-
-// Set group, cleanup then happy face at start.
-radio.setGroup(149)
+// Cleanup, set radio group, then happy face.
 basic.clearScreen()
+radio.setGroup(149)
 basic.showIcon(IconNames.Happy)
 
-// leftTrack on/off on a button press.
-input.onButtonPressed(Button.A, function() {
-    if (leftTrack == 0) {
-        leftTrack = 1
-        radio.sendNumber(leftTrack = 1)
-        basic.clearScreen()
-        basic.showString('L on')
-        basic.showIcon(IconNames.Happy)
-    } else {
-        leftTrack = 0
-        basic.clearScreen()
-        radio.sendNumber(leftTrack = 0)
-        basic.showString('L off')
-        basic.showIcon(IconNames.Happy)
-    }
+// Send signal to go forward on AB button press.
+input.onButtonPressed(Button.AB, function() {
+    basic.clearScreen()
+    radio.sendNumber(1)
+    basic.showArrow(ArrowNames.North)
+    basic.pause(75)
+    basic.showIcon(IconNames.Happy)
 })
 
-// rightTrack on/off on B button press.
+// Send signal to turn left on A button press.
+input.onButtonPressed(Button.A, function () {
+    basic.clearScreen()
+    radio.sendNumber(2)
+    basic.showArrow(ArrowNames.West)
+    basic.pause(75)
+    basic.showIcon(IconNames.Happy)
+})
+
+// Send signal to turn right on B button press.
 input.onButtonPressed(Button.B, function () {
-    if (rightTrack == 0) {
-        rightTrack = 1
-        radio.sendNumber(rightTrack = 1)
-        basic.clearScreen()
-        basic.showString('R on')
-        basic.showIcon(IconNames.Happy)
-    } else {
-        rightTrack = 0
-        basic.clearScreen()
-        radio.sendNumber(rightTrack = 0)
-        basic.showString('R off')
-        basic.showIcon(IconNames.Happy)
-    }
+    basic.clearScreen()
+    radio.sendNumber(3)
+    basic.showArrow(ArrowNames.East)
+    basic.pause(75)
+    basic.showIcon(IconNames.Happy)
 })
 
-// Left motor receive.
-radio.onReceivedNumber(function(leftTrack: number) {
-    robotbit.MotorStop(robotbit.Motors.M2A)
-
-    // Left motor loop.
-    while (true) {
-        robotbit.StepperDegree(robotbit.Steppers.M2, 10)
-        if (leftTrack == 0) {
-            robotbit.MotorStop(robotbit.Motors.M2A)
-            break
-        }
-    }
+// Send signal to go backward on shake.
+input.onGesture(Gesture.Shake, function() {
+    basic.clearScreen()
+    radio.sendNumber(4)
+    basic.showArrow(ArrowNames.East)
+    basic.pause(75)
+    basic.showIcon(IconNames.Happy)
 })
 
-// Right motor receive.
-radio.onReceivedNumber(function (rightTrack: number) {
-    robotbit.MotorStop(robotbit.Motors.M1A)
+// Rotate stepper motors based off signal
+radio.onReceivedNumber(function(receivedNumber: number) {
+    // Go forward if 1.
+    if (receivedNumber == 1) {
+        robotbit.StpCarMove(30, 26)
+    }
 
-    // Right motor loop.
-    while (true) {
-        robotbit.StepperDegree(robotbit.Steppers.M1, 10)
-        if (leftTrack == 0) {
-            robotbit.MotorStop(robotbit.Motors.M1A)
-            break
-        }
+    // Turn left if 2.
+    if (receivedNumber == 2) {
+    robotbit.StpCarTurn(-45, 26, 300)
+    }
+
+    // Turn right if 3.
+    if (receivedNumber == 3) {
+        robotbit.StpCarTurn(45, 26, 300)
+    }
+    
+    // Go backward if 4.
+    if (receivedNumber == 4) {
+        robotbit.StpCarMove(-30, 26)
     }
 })
