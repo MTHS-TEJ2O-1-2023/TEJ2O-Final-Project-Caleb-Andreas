@@ -55,7 +55,7 @@ radio.onReceivedNumber(function(receivedNumber: number) {
 
     // Turn left if 2.
     if (receivedNumber == 2) {
-    robotbit.StpCarTurn(-45, 26, 300)
+        robotbit.StpCarTurn(-45, 26, 300)
     }
 
     // Turn right if 3.
